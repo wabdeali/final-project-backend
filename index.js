@@ -50,28 +50,34 @@ app.post('/login', (req, res) => {
 })
 
 app.get('/namesearch', (req, res) => {
-    let { name } = req.query
 
-    // const query = "SELECT * FROM person_data WHERE UPPER(first_name) = '" + name.toUpperCase() + "'"
-    const query = "SELECT * FROM person_data WHERE UPPER(first_name) LIKE '%" + name.toUpperCase() + "%'"
-    console.log(query)
+    try {
+        let { name } = req.query
 
-    const namesearch = pool.query(
-        query,
-        (err, result) => {
-            if (err) {
-                res.json({ "message": "failed", "error": err })
-                console.log(err)
-            } else {
-                if (result.rows[0]) {
-                    res.json(result.rows)
+        // const query = "SELECT * FROM person_data WHERE UPPER(first_name) = '" + name.toUpperCase() + "'"
+        const query = "SELECT * FROM person_data WHERE UPPER(first_name) LIKE '%" + name.toUpperCase() + "%'"
+        console.log(query)
+
+        const namesearch = pool.query(
+            query,
+            (err, result) => {
+                if (err) {
+                    res.json({ "message": "failed", "error": err })
+                    console.log(err)
                 } else {
-                    res.json(result.rows)
-                    console.log(result.rows)
+                    if (result.rows[0]) {
+                        res.json(result.rows)
+                    } else {
+                        res.json(result.rows)
+                        console.log(result.rows)
+                    }
                 }
             }
-        }
-    )
+        )
+    } catch (err) {
+        console.log(err)
+    }
+
 
 })
 

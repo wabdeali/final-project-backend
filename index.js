@@ -65,7 +65,7 @@ app.get('/namesearch', (req, res) => {
                     res.json({ "message": "failed", "error": err })
                     console.log(err)
                 } else {
-                    if (result.rows[0]) {
+                    if (result.rows !== undefined && result.rows[0]) {
                         res.json(result.rows)
                     } else {
                         res.json(result.rows)
